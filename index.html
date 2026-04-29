@@ -1,73 +1,290 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>マロちゃんカキカキ</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffd98a">
+<title>マロちゃんカキカキ2</title>
 <style>
-body {
-  margin:0;
-  font-family:sans-serif;
-  background:#f7e6b5;
-  text-align:center;
+:root{
+  --brown:#7a4b22; --deep:#4f351c; --cream:#fff7df; --gold:#ffcc63; --pink:#ff7e9e; --green:#85c96f;
 }
-.container {
-  padding:20px;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  color:var(--deep);
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 12%,rgba(255,255,255,.9),transparent 20%),
+    radial-gradient(circle at 90% 4%,rgba(255,255,255,.55),transparent 18%),
+    linear-gradient(160deg,#fff2c8 0%,#ffd98a 45%,#f5b85e 100%);
 }
-img {
-  width:250px;
+.app{
+  height:100dvh;
+  max-width:540px;
+  margin:0 auto;
+  position:relative;
+  padding:18px 14px 14px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
-button {
-  margin:10px;
-  padding:12px 20px;
-  border-radius:20px;
-  border:none;
-  background:#ffcc80;
+.header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:8px 10px;
+}
+.logo{
+  text-align:left; line-height:1.02;
+  filter:drop-shadow(0 3px 0 rgba(122,75,34,.18));
+}
+.logo .small{font-size:15px;font-weight:900;color:#e66b2d}
+.logo .main{font-size:34px;font-weight:1000;letter-spacing:-1px;color:#6cab45;
+  -webkit-text-stroke:5px #fff7d7; paint-order:stroke fill;
+}
+.badge{
+  background:rgba(255,255,255,.62);
+  border:2px solid rgba(122,75,34,.18);
+  border-radius:18px; padding:8px 12px; font-weight:900;
+  box-shadow:0 6px 0 rgba(122,75,34,.12);
+}
+.stage{
+  flex:1;
+  min-height:0;
+  position:relative;
+  border:3px solid rgba(122,75,34,.28);
+  border-radius:32px;
+  overflow:hidden;
+  background:rgba(255,248,220,.72);
+  box-shadow:0 14px 35px rgba(122,75,34,.25), inset 0 0 0 6px rgba(255,255,255,.25);
+}
+.bg{
+  position:absolute; inset:0;
+  background-image:url("maro_illust.png");
+  background-size:cover;
+  background-position:center;
+  filter:blur(12px) saturate(1.08) brightness(1.08);
+  transform:scale(1.08);
+  opacity:.52;
+}
+.perch{
+  position:absolute; left:5%; right:5%; bottom:15.3%;
+  height:28px; border-radius:999px;
+  background:linear-gradient(#d99b45,#96611f);
+  border:3px solid rgba(96,54,12,.5);
+  box-shadow:0 10px 18px rgba(87,45,10,.25);
+  z-index:3;
+}
+.maroWrap{
+  position:absolute;
+  left:50%; bottom:14%;
+  width:min(88%,430px);
+  aspect-ratio:1/1;
+  transform:translateX(-50%);
+  z-index:4;
+  display:grid; place-items:center;
+}
+.maro{
+  width:100%; height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 18px 20px rgba(80,44,16,.28));
+  transform-origin:50% 74%;
+  user-select:none; pointer-events:none;
+}
+.maro.idle{animation:breath 2.4s ease-in-out infinite}
+.maro.kaki{animation:kaki .55s ease-in-out infinite}
+.maro.happy{animation:happy .42s ease-in-out infinite}
+.maro.sleepy{animation:sleepy 2.2s ease-in-out infinite}
+@keyframes breath{0%,100%{transform:scale(1) rotate(-.5deg)}50%{transform:scale(1.025) rotate(.6deg)}}
+@keyframes kaki{0%,100%{transform:scale(1.02) rotate(-2deg)}50%{transform:scale(1.07) rotate(2deg)}}
+@keyframes happy{0%,100%{transform:translateY(0) scale(1.04) rotate(-3deg)}50%{transform:translateY(-18px) scale(1.08) rotate(3deg)}}
+@keyframes sleepy{0%,100%{transform:scale(1) rotate(-1deg);filter:drop-shadow(0 18px 20px rgba(80,44,16,.28)) brightness(.95)}50%{transform:scale(.985) rotate(1deg);filter:drop-shadow(0 18px 20px rgba(80,44,16,.28)) brightness(.88)}}
+
+.hand{
+  position:absolute; right:-110px; top:23%;
+  font-size:88px; z-index:7;
+  transform:rotate(-25deg);
+  opacity:0;
+  pointer-events:none;
+}
+.hand.show{animation:hand .85s ease-in-out}
+@keyframes hand{0%{opacity:0;transform:translate(50px,-25px) rotate(-25deg)}22%,78%{opacity:1}100%{opacity:0;transform:translate(-95px,45px) rotate(-10deg)}}
+
+.speech{
+  position:absolute; z-index:8; left:50%; top:10px; transform:translateX(-50%);
+  min-width:200px; max-width:92%;
+  padding:12px 16px;
+  background:rgba(255,255,255,.83);
+  border:3px solid rgba(122,75,34,.28);
+  border-radius:22px;
+  font-weight:1000; font-size:20px;
+  box-shadow:0 8px 0 rgba(122,75,34,.13);
+}
+.sparkle,.heart{
+  position:absolute; z-index:9; pointer-events:none;
+  animation:floatUp 1.2s ease-out forwards;
+  font-size:25px;
+}
+@keyframes floatUp{0%{opacity:0;transform:translateY(16px) scale(.5) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translateY(-95px) scale(1.55) rotate(20deg)}}
+
+.meterBox{
+  position:absolute; left:15px; right:15px; bottom:14px; z-index:10;
+  background:rgba(255,255,255,.72);
+  border:3px solid rgba(122,75,34,.24);
+  border-radius:22px;
+  padding:10px;
+  box-shadow:0 7px 0 rgba(122,75,34,.12);
+}
+.meterTop{display:flex;justify-content:space-between;font-weight:1000;margin:0 4px 8px}
+.meter{height:22px;background:#ffe8ba;border-radius:999px;overflow:hidden;border:2px solid rgba(122,75,34,.2)}
+.fill{height:100%;width:50%;border-radius:999px;background:linear-gradient(90deg,#ff7e9e,#ffd45d,#88d66d); transition:width .28s ease}
+.controls{
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr;
+  gap:9px;
+}
+button{
+  border:0;
+  border-radius:22px;
+  padding:14px 10px;
   font-size:16px;
+  font-weight:1000;
+  color:#5d3b1b;
+  background:linear-gradient(#fff7e0,#ffc66f);
+  border:2px solid rgba(122,75,34,.22);
+  box-shadow:0 7px 0 rgba(122,75,34,.22);
 }
-.bar {
-  width:80%;
-  height:20px;
-  background:#ddd;
-  margin:10px auto;
-  border-radius:10px;
+button:active{transform:translateY(4px); box-shadow:0 3px 0 rgba(122,75,34,.22)}
+.primary{background:linear-gradient(#fff2b9,#ff9f6b)}
+.menu{
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;
 }
-.fill {
-  height:100%;
-  width:0%;
-  background:#ff8a80;
-  border-radius:10px;
+.panel{
+  background:rgba(255,255,255,.58);
+  border:2px solid rgba(122,75,34,.18);
+  border-radius:22px;
+  padding:10px;
 }
+.soundGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.soundGrid button{padding:10px 6px;font-size:13px;border-radius:16px}
+.toast{
+  position:absolute;left:50%;bottom:128px;transform:translateX(-50%);
+  background:#fffdf4;border:3px solid rgba(122,75,34,.22);
+  border-radius:999px;padding:10px 15px;font-weight:1000;z-index:20;
+  opacity:0; transition:.25s;
+}
+.toast.on{opacity:1; transform:translateX(-50%) translateY(-10px)}
+.hidden{display:none}
 </style>
 </head>
 <body>
-<div class="container">
-<h1>マロちゃんカキカキ🐥</h1>
-<img src="maro.png" id="maro">
-<div class="bar"><div class="fill" id="fill"></div></div>
-<button onclick="kaki()">カキカキする</button>
-<button onclick="sound()">鳴き声</button>
-<p id="msg">なでて〜</p>
+<div class="app">
+  <div class="header">
+    <div class="logo"><div class="small">改良版・新作</div><div class="main">マロちゃん<br>カキカキ2</div></div>
+    <div class="badge">⭐ <span id="pt">0</span>pt</div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="bg"></div>
+    <div class="speech" id="speech">マロちゃんをカキカキしてね♪</div>
+    <div class="maroWrap"><img class="maro idle" id="maro" src="maro_illust.png" alt="マロちゃん"></div>
+    <div class="hand" id="hand">🤏</div>
+    <div class="perch"></div>
+    <div class="meterBox">
+      <div class="meterTop"><span>なかよし度</span><span id="pct">50%</span></div>
+      <div class="meter"><div class="fill" id="fill"></div></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="kakiBtn">カキカキする</button>
+    <button id="voiceBtn">鳴き声</button>
+    <button id="giftBtn">ごほうび</button>
+  </div>
+
+  <div class="panel">
+    <b>鳴き声モード</b>
+    <div class="soundGrid">
+      <button data-mode="genki">元気：ぴーぴー！</button>
+      <button data-mode="amae">甘え：きゅるる〜♪</button>
+      <button data-mode="talk">おしゃべり：マロちゃ〜ん</button>
+      <button data-mode="sleep">ねむねむ：すやぁ…</button>
+    </div>
+  </div>
+  <div class="toast" id="toast">ごほうびゲット！</div>
 </div>
 
 <script>
-let val = 0;
+let pct=50, pt=0, mode="genki", happyTimer=null;
+const maro=document.getElementById("maro"), speech=document.getElementById("speech"),
+fill=document.getElementById("fill"), pctEl=document.getElementById("pct"), ptEl=document.getElementById("pt"),
+stage=document.getElementById("stage"), hand=document.getElementById("hand"), toast=document.getElementById("toast");
 
-function kaki(){
-  val += 10;
-  if(val>100) val=100;
-  document.getElementById("fill").style.width = val+"%";
-  document.getElementById("msg").innerText = "きもちいい〜♪";
-
-  if(val==100){
-    document.getElementById("msg").innerText = "だいすき！！";
+const lines={
+ genki:["ぴーぴー！","もっとカキカキ！","マロちゃん元気！"],
+ amae:["きゅるる〜♪","そこそこ〜♪","あまえんぼマロちゃん"],
+ talk:["マロちゃ〜ん！","ろまちゃん♪","だいすき！"],
+ sleep:["すやぁ…","ねむねむ…","ふわぁ…"]
+};
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function setMaro(cls){
+  maro.className="maro "+cls;
+}
+function update(){
+  fill.style.width=pct+"%"; pctEl.textContent=pct+"%"; ptEl.textContent=pt;
+}
+function pop(text){
+  speech.textContent=text;
+  speech.animate([{transform:"translateX(-50%) scale(.95)"},{transform:"translateX(-50%) scale(1.06)"},{transform:"translateX(-50%) scale(1)"}],{duration:380});
+}
+function fx(){
+  for(let i=0;i<9;i++){
+    const e=document.createElement("div");
+    e.className=Math.random()>.45?"heart":"sparkle";
+    e.textContent=e.className==="heart"?"💗":"✨";
+    e.style.left=(18+Math.random()*64)+"%";
+    e.style.top=(38+Math.random()*28)+"%";
+    e.style.animationDelay=(Math.random()*0.25)+"s";
+    stage.appendChild(e);
+    setTimeout(()=>e.remove(),1500);
   }
 }
-
-function sound(){
-  const sounds = ["ぴよ！","きゅるる","ちゅん♪"];
-  alert(sounds[Math.floor(Math.random()*sounds.length)]);
+function tone(freq=660, dur=.12, type="sine", vol=.06){
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC)return;
+  window.ac=window.ac||new AC();
+  const o=ac.createOscillator(), g=ac.createGain();
+  o.type=type; o.frequency.value=freq; g.gain.value=vol;
+  o.connect(g); g.connect(ac.destination);
+  o.start();
+  g.gain.exponentialRampToValueAtTime(.0001, ac.currentTime+dur);
+  o.stop(ac.currentTime+dur);
 }
+function chirp(){
+  const seq = mode==="amae" ? [560,690,820] : mode==="talk" ? [520,520,760,680] : mode==="sleep" ? [360,320] : [780,980,860];
+  seq.forEach((f,i)=>setTimeout(()=>tone(f,.11,"sine",.055),i*95));
+}
+function kaki(){
+  clearTimeout(happyTimer);
+  pct=Math.min(100,pct+7); pt+=50;
+  setMaro(pct>=100?"happy":"kaki");
+  pop(pct>=100?"大よろこび！！ろまちゃん、だいすき！":"きもちいい〜♪");
+  hand.classList.remove("show"); void hand.offsetWidth; hand.classList.add("show");
+  fx(); chirp(); update();
+  happyTimer=setTimeout(()=>setMaro(pct>=100?"happy":"idle"),900);
+}
+document.getElementById("kakiBtn").onclick=kaki;
+stage.addEventListener("click",kaki);
+document.getElementById("voiceBtn").onclick=()=>{pop(rand(lines[mode])); chirp(); fx();};
+document.getElementById("giftBtn").onclick=()=>{
+  pt+=200; pct=Math.min(100,pct+10); update(); pop("ごほうびありがとう♪"); fx(); chirp();
+  toast.classList.add("on"); setTimeout(()=>toast.classList.remove("on"),1000);
+};
+document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{
+  mode=b.dataset.mode; pop("鳴き声モード変更♪ "+rand(lines[mode])); chirp();
+  setMaro(mode==="sleep"?"sleepy":"idle");
+});
+update();
 </script>
 </body>
 </html>

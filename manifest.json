@@ -1,0 +1,16 @@
+{
+  "name": "マロちゃんカキカキ2",
+  "short_name": "マロカキ2",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffd98a",
+  "theme_color": "#ffd98a",
+  "icons": [
+    {
+      "src": "maro_illust.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
