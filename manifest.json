@@ -7,7 +7,7 @@
   "theme_color": "#ffd98a",
   "icons": [
     {
-      "src": "maro_main_20260429.png",
+      "src": "maro_fixed_art_20260429.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
