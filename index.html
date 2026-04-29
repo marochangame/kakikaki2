@@ -22,7 +22,6 @@ body{
 .logo .small{font-size:15px;font-weight:900;color:#e66b2d}
 .logo .main{font-size:32px;font-weight:1000;color:#69aa43;-webkit-text-stroke:5px #fff7d7;paint-order:stroke fill}
 .badge{background:rgba(255,255,255,.72);border:2px solid rgba(122,75,34,.18);border-radius:18px;padding:8px 12px;font-weight:1000;box-shadow:0 6px 0 rgba(122,75,34,.12)}
-
 .stage{
   position:relative;height:min(58dvh,520px);min-height:430px;
   border:3px solid rgba(122,75,34,.24);border-radius:32px;overflow:hidden;
@@ -45,16 +44,12 @@ body{
 @keyframes sleepy{0%,100%{transform:scale(1) rotate(-1deg);filter:drop-shadow(0 16px 18px rgba(80,44,16,.25)) brightness(.94)}50%{transform:scale(.985) rotate(1deg);filter:drop-shadow(0 16px 18px rgba(80,44,16,.25)) brightness(.86)}}
 .perch{position:absolute;left:7%;right:7%;bottom:22%;height:24px;border-radius:999px;background:linear-gradient(#d99b45,#96611f);border:3px solid rgba(96,54,12,.45);z-index:3;box-shadow:0 9px 16px rgba(87,45,10,.22)}
 .speech{position:absolute;z-index:8;left:50%;top:12px;transform:translateX(-50%);min-width:210px;max-width:90%;padding:12px 16px;background:rgba(255,255,255,.86);border:3px solid rgba(122,75,34,.25);border-radius:22px;font-weight:1000;font-size:19px;box-shadow:0 8px 0 rgba(122,75,34,.12);text-align:center}
-.hand{position:absolute;right:-115px;top:22%;font-size:82px;z-index:9;transform:rotate(-25deg);opacity:0;pointer-events:none}
-.hand.show{animation:hand .85s ease-in-out}
-@keyframes hand{0%{opacity:0;transform:translate(50px,-25px) rotate(-25deg)}22%,78%{opacity:1}100%{opacity:0;transform:translate(-95px,45px) rotate(-10deg)}}
 .fx{position:absolute;z-index:11;pointer-events:none;animation:floatUp 1.2s ease-out forwards;font-size:25px}
 @keyframes floatUp{0%{opacity:0;transform:translateY(16px) scale(.5) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translateY(-95px) scale(1.55) rotate(20deg)}}
 .meterBox{position:absolute;left:16px;right:16px;bottom:13px;z-index:10;background:rgba(255,255,255,.76);border:3px solid rgba(122,75,34,.22);border-radius:22px;padding:10px;box-shadow:0 7px 0 rgba(122,75,34,.12)}
 .meterTop{display:flex;justify-content:space-between;font-weight:1000;margin:0 4px 8px;font-size:18px}
 .meter{height:22px;background:#ffe8ba;border-radius:999px;overflow:hidden;border:2px solid rgba(122,75,34,.2)}
 .fill{height:100%;width:50%;border-radius:999px;background:linear-gradient(90deg,#ff7e9e,#ffd45d,#88d66d);transition:width .28s ease}
-
 .controls{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:9px}
 button{touch-action:manipulation;border:0;border-radius:22px;padding:14px 8px;font-size:16px;font-weight:1000;color:#5d3b1b;background:linear-gradient(#fff7e0,#ffc66f);border:2px solid rgba(122,75,34,.22);box-shadow:0 7px 0 rgba(122,75,34,.22)}
 button:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(122,75,34,.22)}
@@ -79,7 +74,6 @@ button:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(122,75,34,.22)}
     <div class="bg"></div>
     <div class="speech" id="speech">マロちゃんをカキカキしてね♪</div>
     <div class="maroWrap"><img class="maro idle" id="maro" src="maro_illust.png" alt="マロちゃん"></div>
-    <div class="hand" id="hand">🤏</div>
     <div class="perch"></div>
     <div class="meterBox">
       <div class="meterTop"><span>なかよし度</span><span id="pct">50%</span></div>
@@ -108,7 +102,7 @@ button:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(122,75,34,.22)}
 <script>
 let pct=50, pt=0, mode="genki", happyTimer=null;
 const $=id=>document.getElementById(id);
-const maro=$("maro"), speech=$("speech"), fill=$("fill"), pctEl=$("pct"), ptEl=$("pt"), stage=$("stage"), hand=$("hand"), toast=$("toast");
+const maro=$("maro"), speech=$("speech"), fill=$("fill"), pctEl=$("pct"), ptEl=$("pt"), stage=$("stage"), toast=$("toast");
 const lines={
  genki:["ぴーぴー！","マロちゃん元気！","カキカキうれしい！"],
  amae:["きゅるる〜♪","そこそこ〜♪","あまえんぼマロちゃん"],
@@ -157,7 +151,6 @@ function kaki(){
   pct=Math.min(100,pct+7);pt+=50;update();
   setMaro(pct>=100?"happy":"kaki");
   pop(pct>=100?"大よろこび！！だいすき！":"きもちいい〜♪");
-  hand.classList.remove("show");void hand.offsetWidth;hand.classList.add("show");
   fx();chirp();
   happyTimer=setTimeout(()=>setMaro(pct>=100?"happy":(mode==="sleep"?"sleepy":"idle")),900);
 }
