@@ -3,25 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffd98a">
 <title>マロちゃんカキカキ2</title>
 <style>
-body{margin:0;font-family:sans-serif;background:#ffd98a}
-.app{max-width:540px;margin:auto;padding:10px}
-.header{display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:bold;font-size:24px;color:#5fa83f}
-.badge{background:#fff;padding:6px 10px;border-radius:12px}
-.stage{position:relative;height:60vh;background:#fff8e0;border-radius:20px;overflow:hidden}
-.maroWrap{position:absolute;top:55%;left:50%;transform:translate(-50%,-50%);width:80%}
-.maro{width:100%}
+:root{--deep:#4f351c}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:#ffd98a}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  color:var(--deep);
+  background:linear-gradient(160deg,#fff4cf 0%,#ffd98a 48%,#f6b75d 100%);
+}
+.app{max-width:540px;margin:0 auto;padding:8px 12px 18px;display:flex;flex-direction:column;gap:8px}
+.header{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
+.logo{font-size:25px;font-weight:1000;color:#65a842;white-space:nowrap;letter-spacing:-1px;-webkit-text-stroke:4px #fff7d7;paint-order:stroke fill;filter:drop-shadow(0 2px 0 rgba(122,75,34,.14))}
+.badge{background:rgba(255,255,255,.78);border:2px solid rgba(122,75,34,.16);border-radius:16px;padding:7px 11px;font-weight:1000;font-size:18px;box-shadow:0 5px 0 rgba(122,75,34,.12)}
+.stage{
+  position:relative;height:min(68dvh,620px);min-height:520px;
+  border:3px solid rgba(122,75,34,.22);border-radius:28px;overflow:hidden;
+  background:rgba(255,248,220,.72);
+  box-shadow:0 12px 30px rgba(122,75,34,.20), inset 0 0 0 5px rgba(255,255,255,.20);
+}
+.bg{position:absolute;inset:0;background-image:url("maro_main_20260429.png?v=20260429b");background-size:cover;background-position:center;filter:blur(15px) saturate(1.08) brightness(1.08);transform:scale(1.08);opacity:.22}
+.maroWrap{
+  position:absolute;left:50%;top:49%;width:min(94%,480px);aspect-ratio:1/1;
+  transform:translate(-50%,-50%);z-index:4;display:grid;place-items:center;
+}
+.maro{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 16px 18px rgba(80,44,16,.25));transform-origin:50% 72%;user-select:none;pointer-events:none}
+.maro.idle{animation:breath 2.4s ease-in-out infinite}
+.maro.kaki{animation:kaki .55s ease-in-out infinite}
+.maro.happy{animation:happy .42s ease-in-out infinite}
+.maro.sleepy{animation:sleepy 2.2s ease-in-out infinite}
+@keyframes breath{0%,100%{transform:scale(1) rotate(-.5deg)}50%{transform:scale(1.025) rotate(.6deg)}}
+@keyframes kaki{0%,100%{transform:scale(1.02) rotate(-2deg)}50%{transform:scale(1.07) rotate(2deg)}}
+@keyframes happy{0%,100%{transform:translateY(0) scale(1.04) rotate(-3deg)}50%{transform:translateY(-16px) scale(1.08) rotate(3deg)}}
+@keyframes sleepy{0%,100%{transform:scale(1) rotate(-1deg);filter:drop-shadow(0 16px 18px rgba(80,44,16,.25)) brightness(.94)}50%{transform:scale(.985) rotate(1deg);filter:drop-shadow(0 16px 18px rgba(80,44,16,.25)) brightness(.86)}}
+.perch{position:absolute;left:5%;right:5%;bottom:18%;height:26px;border-radius:999px;background:linear-gradient(#d99b45,#96611f);border:3px solid rgba(96,54,12,.45);z-index:3;box-shadow:0 9px 16px rgba(87,45,10,.22)}
 .speech{
-  position:absolute;
-  top:8px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#fff;
-  padding:6px 12px;
-  border-radius:12px;
-  font-weight:bold;
+  position:absolute;z-index:8;left:50%;bottom:92px;transform:translateX(-50%);
+  min-width:190px;max-width:86%;padding:9px 14px;background:rgba(255,255,255,.88);
+  border:3px solid rgba(122,75,34,.23);border-radius:20px;font-weight:1000;font-size:18px;
+  box-shadow:0 6px 0 rgba(122,75,34,.10);text-align:center
+}
+.fx{position:absolute;z-index:11;pointer-events:none;animation:floatUp 1.2s ease-out forwards;font-size:25px}
+@keyframes floatUp{0%{opacity:0;transform:translateY(16px) scale(.5) rotate(0)}20%{opacity:1}100%{opacity:0;transform:translateY(-95px) scale(1.55) rotate(20deg)}}
+.meterBox{
+  position:absolute;left:14px;right:14px;bottom:12px;z-index:10;background:rgba(255,255,255,.78);
+  border:3px solid rgba(122,75,34,.20);border-radius:20px;padding:9px;box-shadow:0 6px 0 rgba(122,75,34,.10)
+}
+.meterTop{display:flex;justify-content:space-between;font-weight:1000;margin:0 4px 7px;font-size:17px}
+.meter{height:20px;background:#ffe8ba;border-radius:999px;overflow:hidden;border:2px solid rgba(122,75,34,.18)}
+.fill{height:100%;width:50%;border-radius:999px;background:linear-gradient(90deg,#ff7e9e,#ffd45d,#88d66d);transition:width .28s ease}
+.controls{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px}
+button{touch-action:manipulation;border:0;border-radius:20px;padding:13px 7px;font-size:16px;font-weight:1000;color:#5d3b1b;background:linear-gradient(#fff7e0,#ffc66f);border:2px solid rgba(122,75,34,.22);box-shadow:0 6px 0 rgba(122,75,34,.20)}
+button:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(122,75,34,.20)}
+.primary{background:linear-gradient(#fff1b8,#ff9d70)}
+.panel{background:rgba(255,255,255,.62);border:2px solid rgba(122,75,34,.16);border-radius:20px;padding:9px}
+.soundGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}
+.soundGrid button{padding:10px 5px;font-size:13px;border-radius:15px}
+.soundGrid button.selected{background:linear-gradient(#fff7cf,#ff9fb5)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fffdf4;border:3px solid rgba(122,75,34,.22);border-radius:999px;padding:10px 16px;font-weight:1000;z-index:30;opacity:0;transition:.25s;box-shadow:0 8px 18px rgba(80,44,16,.18)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(-10px)}
+@media(max-height:760px){
+  .app{padding-top:8px;gap:7px}
+  .logo{font-size:22px}
+  .badge{font-size:16px;padding:6px 10px}
+  .stage{height:64dvh;min-height:470px}.maroWrap{width:min(91%,445px);top:49%}
+  .speech{bottom:86px;font-size:17px}
+  button{padding:11px 6px}.panel{padding:8px}.soundGrid button{padding:9px 5px}
 }
 </style>
 </head>
@@ -29,15 +78,66 @@ body{margin:0;font-family:sans-serif;background:#ffd98a}
 <div class="app">
   <div class="header">
     <div class="logo">マロちゃんカキカキ2</div>
-    <div class="badge">⭐150pt</div>
+    <div class="badge">⭐ <span id="pt">0</span>pt</div>
   </div>
 
-  <div class="stage">
-    <div class="speech">マロちゃん元気！</div>
-    <div class="maroWrap">
-      <img src="maro_illust.png" class="maro">
+  <div class="stage" id="stage">
+    <div class="bg"></div>
+    <div class="maroWrap"><img class="maro idle" id="maro" src="maro_main_20260429.png?v=20260429b" alt="マロちゃん"></div>
+    <div class="perch"></div>
+    <div class="speech" id="speech">マロちゃんをカキカキしてね♪</div>
+    <div class="meterBox">
+      <div class="meterTop"><span>なかよし度</span><span id="pct">50%</span></div>
+      <div class="meter"><div class="fill" id="fill"></div></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="primary" id="kakiBtn" type="button">カキカキする</button>
+    <button id="voiceBtn" type="button">鳴き声</button>
+    <button id="giftBtn" type="button">ごほうび</button>
+  </div>
+
+  <div class="panel">
+    <b>鳴き声モード</b>
+    <div class="soundGrid">
+      <button type="button" data-mode="genki" class="selected">元気：ぴーぴー！</button>
+      <button type="button" data-mode="amae">甘え：きゅるる〜♪</button>
+      <button type="button" data-mode="talk">おしゃべり：マロちゃ〜ん</button>
+      <button type="button" data-mode="sleep">ねむねむ：すやぁ…</button>
     </div>
   </div>
 </div>
+<div class="toast" id="toast">OK</div>
+
+<script>
+let pct=50, pt=0, mode="genki", happyTimer=null;
+const $=id=>document.getElementById(id);
+const maro=$("maro"), speech=$("speech"), fill=$("fill"), pctEl=$("pct"), ptEl=$("pt"), stage=$("stage"), toast=$("toast");
+const lines={
+ genki:["ぴーぴー！","マロちゃん元気！","カキカキうれしい！"],
+ amae:["きゅるる〜♪","そこそこ〜♪","あまえんぼマロちゃん"],
+ talk:["マロちゃ〜ん！","ろまちゃん♪","だいすき！"],
+ sleep:["すやぁ…","ねむねむ…","ふわぁ…"]
+};
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function setMaro(cls){maro.className="maro "+cls}
+function update(){fill.style.width=pct+"%";pctEl.textContent=pct+"%";ptEl.textContent=pt}
+function showToast(t){toast.textContent=t;toast.classList.add("on");setTimeout(()=>toast.classList.remove("on"),950)}
+function pop(text){speech.textContent=text;speech.animate([{transform:"translateX(-50%) scale(.95)"},{transform:"translateX(-50%) scale(1.06)"},{transform:"translateX(-50%) scale(1)"}],{duration:360})}
+function fx(){for(let i=0;i<8;i++){const e=document.createElement("div");e.className="fx";e.textContent=Math.random()>.45?"💗":"✨";e.style.left=(20+Math.random()*60)+"%";e.style.top=(24+Math.random()*42)+"%";e.style.animationDelay=(Math.random()*0.22)+"s";stage.appendChild(e);setTimeout(()=>e.remove(),1500)}}
+function tone(freq=660,dur=.11,type="sine",vol=.055){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;window.ac=window.ac||new AC();if(ac.state==="suspended")ac.resume();const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=freq;g.gain.value=vol;o.connect(g);g.connect(ac.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);o.stop(ac.currentTime+dur)}catch(e){}}
+function chirp(){const seq=mode==="amae"?[560,690,820]:mode==="talk"?[520,520,760,680]:mode==="sleep"?[360,320]:[780,980,860];seq.forEach((f,i)=>setTimeout(()=>tone(f,.11,"sine",.055),i*95))}
+function kaki(){clearTimeout(happyTimer);pct=Math.min(100,pct+7);pt+=50;update();setMaro(pct>=100?"happy":"kaki");pop(pct>=100?"大よろこび！！だいすき！":"きもちいい〜♪");fx();chirp();happyTimer=setTimeout(()=>setMaro(pct>=100?"happy":(mode==="sleep"?"sleepy":"idle")),900)}
+function voice(){pop(rand(lines[mode]));chirp();fx();showToast("鳴き声： "+modeName())}
+function gift(){pt+=200;pct=Math.min(100,pct+10);update();pop("ごほうびありがとう♪");fx();chirp();showToast("ごほうびゲット！");setMaro("happy");clearTimeout(happyTimer);happyTimer=setTimeout(()=>setMaro(mode==="sleep"?"sleepy":"idle"),900)}
+function modeName(){return mode==="genki"?"元気":mode==="amae"?"甘え":mode==="talk"?"おしゃべり":"ねむねむ"}
+$("kakiBtn").addEventListener("click",e=>{e.stopPropagation();kaki()});
+$("voiceBtn").addEventListener("click",e=>{e.stopPropagation();voice()});
+$("giftBtn").addEventListener("click",e=>{e.stopPropagation();gift()});
+document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();mode=b.dataset.mode;document.querySelectorAll("[data-mode]").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");pop("鳴き声モード： "+modeName());chirp();showToast("変更したよ♪");setMaro(mode==="sleep"?"sleepy":"idle")}));
+stage.addEventListener("click",kaki);
+update();
+</script>
 </body>
 </html>
