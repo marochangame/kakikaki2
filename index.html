@@ -3,335 +3,73 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#ffd98a">
 <title>マロちゃんカキカキ2</title>
-<link rel="manifest" href="manifest.json?v=god-actions1">
 <style>
-:root{
-  --ink:#4d3218;
-  --line:rgba(130,78,28,.22);
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{
-  margin:0;
-  height:100%;
-  overflow:hidden;
-  background:#ffd98a;
-  color:var(--ink);
-}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
-  background:
-    radial-gradient(circle at 12% 8%,rgba(255,255,255,.75),transparent 22%),
-    linear-gradient(160deg,#fff2c8 0%,#ffd98a 48%,#f5b35d 100%);
-}
-.app{
-  width:min(100%,540px);
-  height:100dvh;
-  margin:0 auto;
-  padding:7px 10px calc(8px + env(safe-area-inset-bottom));
-  display:grid;
-  grid-template-rows:auto 1fr auto auto;
-  gap:6px;
-  overflow:hidden;
-}
-.top{display:flex;align-items:center;justify-content:space-between;gap:7px;min-height:34px}
-.logo{
-  white-space:nowrap;
-  font-weight:1000;
-  font-size:clamp(19px,6.2vw,29px);
-  letter-spacing:-1px;line-height:1;color:#67a94a;
-  -webkit-text-stroke:3px #fff7d8;paint-order:stroke fill;
-  filter:drop-shadow(0 2px 0 rgba(122,75,34,.13));
-}
-.pill{
-  border:2px solid var(--line);border-radius:16px;background:rgba(255,255,255,.76);
-  box-shadow:0 4px 0 rgba(122,75,34,.11);
-  padding:5px 9px;font-weight:1000;font-size:clamp(14px,4.2vw,17px);white-space:nowrap;
-}
-.stage{
-  position:relative;min-height:0;border:3px solid rgba(122,75,34,.18);border-radius:24px;overflow:hidden;
-  background:rgba(255,250,226,.72);
-  box-shadow:0 10px 24px rgba(122,75,34,.18), inset 0 0 0 5px rgba(255,255,255,.16);
-}
-.bg{
-  position:absolute;inset:0;background-image:url("maro_fixed_art_keep.png?v=god-actions1");
-  background-size:cover;background-position:center;filter:blur(13px) saturate(1.06) brightness(1.08);
-  transform:scale(1.08);opacity:.22;
-}
-.maroWrap{
-  position:absolute;left:50%;top:46%;width:min(93%,470px);aspect-ratio:1/1;
-  transform:translate(-50%,-50%);z-index:4;display:grid;place-items:center;
-}
-.maro{
-  width:100%;height:100%;object-fit:contain;user-select:none;pointer-events:none;
-  transform-origin:50% 72%;filter:drop-shadow(0 15px 18px rgba(80,44,16,.23));
-}
-.maro.idle{animation:breath 2.5s ease-in-out infinite}
-.maro.kaki{animation:kaki .48s ease-in-out infinite}
-.maro.happy{animation:happy .42s ease-in-out infinite}
-.maro.voice{animation:talk .62s ease-in-out}
-.maro.eat{animation:eat .78s ease-in-out}
-.maro.sleepy{animation:sleepy 2.2s ease-in-out infinite}
-@keyframes breath{0%,100%{transform:scale(1) rotate(-.5deg)}50%{transform:scale(1.018) rotate(.5deg)}}
-@keyframes kaki{0%,100%{transform:scale(1.02) rotate(-1.6deg)}50%{transform:scale(1.055) rotate(1.6deg)}}
-@keyframes happy{0%,100%{transform:translateY(0) scale(1.035) rotate(-2deg)}50%{transform:translateY(-13px) scale(1.07) rotate(2deg)}}
-@keyframes talk{0%,100%{transform:scale(1) rotate(0)}30%{transform:scale(1.035) rotate(-2deg)}65%{transform:scale(1.025) rotate(2deg)}}
-@keyframes eat{0%,100%{transform:scale(1) translateY(0)}25%{transform:scale(1.03) translateY(5px)}50%{transform:scale(.99) translateY(-2px)}75%{transform:scale(1.04) translateY(4px)}}
-@keyframes sleepy{0%,100%{transform:scale(1) rotate(-1deg);filter:drop-shadow(0 15px 18px rgba(80,44,16,.23)) brightness(.94)}50%{transform:scale(.985) rotate(1deg);filter:drop-shadow(0 15px 18px rgba(80,44,16,.23)) brightness(.86)}}
-.perch{
-  position:absolute;left:5%;right:5%;bottom:18%;height:24px;border-radius:999px;
-  background:linear-gradient(#dfab55,#955d1b);border:3px solid rgba(96,54,12,.38);z-index:3;
-  box-shadow:0 7px 14px rgba(87,45,10,.19);
-}
-.speech{
-  position:absolute;z-index:12;left:14px;top:14px;max-width:43%;padding:6px 9px;
-  color:#f06f99;background:rgba(255,255,255,.92);border:3px solid rgba(255,165,190,.48);
-  border-radius:16px 17px 17px 8px;box-shadow:0 6px 12px rgba(122,75,34,.12);
-  font-weight:1000;font-size:13px;line-height:1.15;text-align:center;
-  transform:rotate(-4deg) translateY(-6px) scale(.92);opacity:0;pointer-events:none;
-}
-.speech:before{
-  content:"";position:absolute;left:17px;bottom:-9px;width:15px;height:15px;background:rgba(255,255,255,.92);
-  border-right:3px solid rgba(255,165,190,.48);border-bottom:3px solid rgba(255,165,190,.48);transform:rotate(45deg);
-}
-.speech.show{opacity:1;animation:bubble .98s ease-out forwards}
-@keyframes bubble{
-  0%{opacity:0;transform:rotate(-4deg) translateY(7px) scale(.65)}
-  18%{opacity:1;transform:rotate(-4deg) translateY(-4px) scale(1.06)}
-  78%{opacity:1;transform:rotate(-4deg) translateY(-3px) scale(1)}
-  100%{opacity:0;transform:rotate(-4deg) translateY(-9px) scale(.96)}
-}
-.miniStar{position:absolute;z-index:13;left:40%;top:58px;font-size:19px;opacity:0;pointer-events:none}
-.miniStar.show{animation:starPop 1s ease-out forwards}
-@keyframes starPop{0%{opacity:0;transform:scale(.4) rotate(-20deg)}25%,75%{opacity:1;transform:scale(1.15) rotate(12deg)}100%{opacity:0;transform:scale(.8) rotate(30deg)}}
-.meterCard{
-  position:absolute;left:12px;right:12px;bottom:10px;z-index:10;background:rgba(255,255,255,.78);
-  border:3px solid rgba(122,75,34,.17);border-radius:19px;padding:7px 8px 8px;box-shadow:0 5px 0 rgba(122,75,34,.09);
-}
-.meterTop{display:flex;justify-content:space-between;align-items:center;font-weight:1000;font-size:15px;margin:0 4px 5px}
-.meter{height:17px;border-radius:999px;overflow:hidden;background:#ffe9bb;border:2px solid rgba(122,75,34,.16)}
-.fill{height:100%;width:50%;border-radius:999px;background:linear-gradient(90deg,#ff79a2,#ffd55f,#83da5f);transition:width .25s ease}
-.fx{position:absolute;z-index:14;pointer-events:none;animation:floatUp 1.05s ease-out forwards;font-size:23px}
-@keyframes floatUp{0%{opacity:0;transform:translateY(12px) scale(.45) rotate(0)}18%{opacity:1}100%{opacity:0;transform:translateY(-82px) scale(1.45) rotate(20deg)}}
-.foodFly{
-  position:absolute;z-index:16;left:50%;top:50%;font-size:30px;pointer-events:none;
-  animation:foodFly .8s ease-in forwards;
-}
-@keyframes foodFly{
-  0%{opacity:1;transform:translate(-50%, 80px) scale(1.2) rotate(-12deg)}
-  80%{opacity:1;transform:translate(-50%,-45px) scale(.65) rotate(12deg)}
-  100%{opacity:0;transform:translate(-50%,-60px) scale(.3)}
-}
-.controls{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:7px}
-button{
-  touch-action:manipulation;border:0;border-radius:19px;padding:8px 5px;color:#5b3819;
-  background:linear-gradient(#fff8df,#ffc86e);border:2px solid rgba(122,75,34,.19);
-  box-shadow:0 5px 0 rgba(122,75,34,.18);font-weight:1000;font-size:14px;
-}
-button:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(122,75,34,.18)}
-.primary{background:linear-gradient(#fff0b7,#ff9d72)}
-.voiceBtn{background:linear-gradient(#fff7df,#ffd46f)}
-.giftBtn{background:linear-gradient(#fff7df,#ffb0c8)}
-.panel{
-  background:rgba(255,255,255,.62);border:2px solid rgba(122,75,34,.15);border-radius:20px;padding:6px;min-height:0;
-}
-.panelTitle{font-weight:1000;margin-bottom:4px;font-size:14px}
-.soundGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.soundGrid button{padding:7px 3px;font-size:11.5px;border-radius:14px}
-.soundGrid button.selected{background:linear-gradient(#fff7cf,#ff9fbc)}
-.items{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:6px}
-.item{
-  height:34px;border-radius:14px;border:2px solid rgba(122,75,34,.14);
-  background:rgba(255,255,255,.56);display:grid;place-items:center;font-size:20px;
-  position:relative;box-shadow:0 3px 0 rgba(122,75,34,.08);
-}
-.item small{
-  position:absolute;right:6px;bottom:2px;font-size:10px;font-weight:1000;color:rgba(77,50,24,.7)
-}
-.item.used{opacity:.38;filter:grayscale(.25)}
-.item.ready{animation:itemPulse 1.2s ease-in-out infinite}
-@keyframes itemPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-.toast{
-  position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:30;opacity:0;background:#fffdf4;
-  border:3px solid rgba(122,75,34,.20);border-radius:999px;padding:8px 14px;font-weight:1000;
-  box-shadow:0 7px 16px rgba(80,44,16,.16);transition:.25s;
-}
-.toast.on{opacity:1;transform:translateX(-50%) translateY(-8px)}
-@media(max-height:760px){
-  .app{padding-top:5px;gap:5px}
-  .logo{font-size:20px;-webkit-text-stroke:3px #fff7d8}
-  .pill{font-size:14px;padding:4px 8px}
-  .maroWrap{width:min(90%,440px);top:45%}
-  .perch{bottom:17%;height:22px}
-  .meterCard{bottom:8px;padding:6px 7px 7px}
-  .meterTop{font-size:14px}.meter{height:15px}
-  .panel{padding:6px}.panelTitle{font-size:14px;margin-bottom:4px}
-  .soundGrid button{padding:7px 3px;font-size:11.2px}
-  .item{height:33px;font-size:19px}
-}
+html,body{margin:0;height:100%;overflow:hidden;background:#ffd98a;font-family:sans-serif}
+.app{height:100dvh;display:grid;grid-template-rows:auto 1fr auto;gap:8px;padding:8px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:900;font-size:24px;color:#67a94a}
+.stage{position:relative;border-radius:20px;overflow:hidden;background:#fff5d6}
+.maro{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:90%}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{padding:14px;border-radius:20px;border:none;font-weight:900;font-size:18px}
+.kaki{background:#ffb37a}
+.gift{background:#ffb3c7}
+.speech{position:absolute;top:10px;left:10px;background:white;padding:8px 12px;border-radius:15px;font-weight:900;opacity:0;transition:.2s}
+.speech.show{opacity:1}
+.bar{position:absolute;bottom:10px;left:10px;right:10px;background:#eee;border-radius:20px;height:20px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,#ff79a2,#ffd55f,#83da5f);width:50%}
 </style>
 </head>
 <body>
 <div class="app">
-  <div class="top">
-    <div class="logo">マロちゃんカキカキ2</div>
-    <div class="pill">⭐ <span id="pt">0</span>pt</div>
-  </div>
-
-  <div class="stage" id="stage">
-    <div class="bg"></div>
-    <div class="speech" id="speech">きもちいい〜♪</div>
-    <div class="miniStar" id="miniStar">⭐</div>
-    <div class="maroWrap">
-      <img class="maro idle" id="maro" src="maro_fixed_art_keep.png?v=god-actions1" alt="マロちゃん">
-    </div>
-    <div class="perch"></div>
-    <div class="meterCard">
-      <div class="meterTop"><span>なかよし度</span><span id="pct">50%</span></div>
-      <div class="meter"><div class="fill" id="fill"></div></div>
-    </div>
-  </div>
-
-  <div class="controls">
-    <button class="primary" id="kakiBtn" type="button">✨ カキカキ</button>
-    <button class="voiceBtn" id="voiceBtn" type="button">🎤 鳴き声</button>
-    <button class="giftBtn" id="giftBtn" type="button">🎁 ごほうび</button>
-  </div>
-
-  <div class="panel">
-    <div class="panelTitle">鳴き声モード</div>
-    <div class="soundGrid">
-      <button type="button" data-mode="genki" class="selected">元気：ぴーぴー！</button>
-      <button type="button" data-mode="amae">甘え：きゅるる〜♪</button>
-      <button type="button" data-mode="talk">おしゃべり：マロちゃ〜ん</button>
-      <button type="button" data-mode="sleep">ねむねむ：すやぁ…</button>
-    </div>
-    <div class="items">
-      <button class="item ready" type="button" data-food="seed">🌻<small>+10</small></button>
-      <button class="item" type="button" data-food="awa">🌾<small>+15</small></button>
-      <button class="item" type="button" data-food="leaf">🍃<small>癒し</small></button>
-    </div>
-  </div>
+<div class="top">
+<div class="logo">マロちゃんカキカキ2</div>
+<div>⭐<span id="pt">0</span></div>
 </div>
-<div class="toast" id="toast">OK</div>
+
+<div class="stage" id="stage">
+<img src="maro.png" class="maro">
+<div class="speech" id="speech"></div>
+<div class="bar"><div class="fill" id="fill"></div></div>
+</div>
+
+<div class="controls">
+<button class="kaki" onclick="kaki()">✨カキカキ</button>
+<button class="gift" onclick="gift()">🎁ごほうび</button>
+</div>
+</div>
 
 <script>
-let pct=50, pt=0, mode="genki", happyTimer=null;
-const $=id=>document.getElementById(id);
-const maro=$("maro"), speech=$("speech"), fill=$("fill"), pctEl=$("pct"), ptEl=$("pt");
-const stage=$("stage"), toast=$("toast"), miniStar=$("miniStar");
-const lines={
- genki:["ぴーぴー！","マロちゃん元気！","カキカキうれしい！"],
- amae:["きゅるる〜♪","そこそこ〜♪","あまえんぼマロちゃん"],
- talk:["マロちゃ〜ん！","ろまちゃん♪","だいすき！"],
- sleep:["すやぁ…","ねむねむ…","ふわぁ…"]
-};
-const foodData={
- seed:{emoji:"🌻", text:"ひまわりのタネ♪", plus:10, point:120},
- awa:{emoji:"🌾", text:"あわの穂おいしい♪", plus:15, point:160},
- leaf:{emoji:"🍃", text:"葉っぱでリラックス♪", plus:7, point:90}
-};
-function rand(a){return a[Math.floor(Math.random()*a.length)]}
-function setMaro(cls){maro.className="maro "+cls}
-function update(){fill.style.width=pct+"%";pctEl.textContent=pct+"%";ptEl.textContent=pt}
-function showToast(t){toast.textContent=t;toast.classList.add("on");setTimeout(()=>toast.classList.remove("on"),900)}
-function pop(text){
-  speech.textContent=text;
-  speech.classList.remove("show"); miniStar.classList.remove("show");
-  void speech.offsetWidth;
-  speech.classList.add("show"); miniStar.classList.add("show");
+let pct=50,pt=0;
+const voices=["ぴっ！","ぴよぴよ♪","きゅるる〜","ぷきゅっ","ちゅん♪","マロちゃ〜ん","ふわぁ…","だいすき♪"];
+function rand(){return voices[Math.floor(Math.random()*voices.length)]}
+
+function show(text){
+const s=document.getElementById("speech");
+s.innerText=text;
+s.classList.add("show");
+setTimeout(()=>s.classList.remove("show"),800);
 }
-function fx(kind="heart"){
-  for(let i=0;i<9;i++){
-    const e=document.createElement("div");
-    e.className="fx";
-    e.textContent=kind==="food" ? (Math.random()>.5?"✨":"💗") : (Math.random()>.5?"💗":"✨");
-    e.style.left=(18+Math.random()*66)+"%";
-    e.style.top=(24+Math.random()*48)+"%";
-    e.style.animationDelay=(Math.random()*0.16)+"s";
-    stage.appendChild(e);
-    setTimeout(()=>e.remove(),1300);
-  }
+
+function update(){
+document.getElementById("fill").style.width=pct+"%";
+document.getElementById("pt").innerText=pt;
 }
-function foodFly(emoji){
-  const e=document.createElement("div");
-  e.className="foodFly"; e.textContent=emoji;
-  stage.appendChild(e);
-  setTimeout(()=>e.remove(),900);
-}
-function tone(freq=660,dur=.1,type="sine",vol=.05){
-  try{
-    const AC=window.AudioContext||window.webkitAudioContext;
-    if(!AC)return;
-    window.ac=window.ac||new AC();
-    if(ac.state==="suspended")ac.resume();
-    const o=ac.createOscillator(),g=ac.createGain();
-    o.type=type;o.frequency.value=freq;g.gain.value=vol;
-    o.connect(g);g.connect(ac.destination);o.start();
-    g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+dur);
-    o.stop(ac.currentTime+dur);
-  }catch(e){}
-}
-function chirp(extra=false){
-  const seq=mode==="amae"?[560,690,820]:mode==="talk"?[520,520,760,680]:mode==="sleep"?[360,320]:[780,980,860];
-  seq.forEach((f,i)=>setTimeout(()=>tone(f,.1,"sine",.05),i*85));
-  if(extra) setTimeout(()=>tone(1040,.09,"sine",.05),360);
-}
-function finishAnim(next){
-  clearTimeout(happyTimer);
-  happyTimer=setTimeout(()=>setMaro(next || (pct>=100?"happy":(mode==="sleep"?"sleepy":"idle"))),820);
-}
+
 function kaki(){
-  pct=Math.min(100,pct+7); pt+=50; update();
-  setMaro(pct>=100?"happy":"kaki");
-  pop(pct>=100?"だいすき！":"きもちいい〜♪");
-  fx("heart"); chirp();
-  finishAnim();
+pct=Math.min(100,pct+7);
+pt+=50;
+show(rand());
+update();
 }
-function voice(){
-  setMaro("voice");
-  pop(rand(lines[mode]));
-  chirp(true);fx();showToast("鳴き声： "+modeName());
-  finishAnim(mode==="sleep"?"sleepy":"idle");
-}
+
 function gift(){
-  const foods=["seed","awa","leaf"];
-  const key=foods[Math.floor(Math.random()*foods.length)];
-  giveFood(key);
+pct=Math.min(100,pct+12);
+pt+=120;
+show(rand());
+update();
 }
-function giveFood(key){
-  const f=foodData[key];
-  pct=Math.min(100,pct+f.plus); pt+=f.point; update();
-  setMaro("eat");
-  pop(f.text);
-  foodFly(f.emoji); fx("food"); chirp(true);
-  showToast("ごほうび +" + f.plus);
-  document.querySelectorAll(".item").forEach(x=>x.classList.remove("ready"));
-  const btn=document.querySelector(`[data-food="${key}"]`);
-  if(btn){btn.classList.add("used"); setTimeout(()=>btn.classList.remove("used"),450)}
-  const next=document.querySelectorAll(".item")[Math.floor(Math.random()*3)];
-  setTimeout(()=>next.classList.add("ready"),450);
-  finishAnim("happy");
-}
-function modeName(){return mode==="genki"?"元気":mode==="amae"?"甘え":mode==="talk"?"おしゃべり":"ねむねむ"}
-$("kakiBtn").addEventListener("click",e=>{e.stopPropagation();kaki()});
-$("voiceBtn").addEventListener("click",e=>{e.stopPropagation();voice()});
-$("giftBtn").addEventListener("click",e=>{e.stopPropagation();gift()});
-document.querySelectorAll("[data-mode]").forEach(b=>b.addEventListener("click",e=>{
-  e.stopPropagation();
-  mode=b.dataset.mode;
-  document.querySelectorAll("[data-mode]").forEach(x=>x.classList.remove("selected"));
-  b.classList.add("selected");
-  pop("モード："+modeName());
-  chirp(); showToast("変更したよ♪");
-  setMaro(mode==="sleep"?"sleepy":"idle");
-}));
-document.querySelectorAll("[data-food]").forEach(b=>b.addEventListener("click",e=>{
-  e.stopPropagation();
-  giveFood(b.dataset.food);
-}));
-stage.addEventListener("click",kaki);
 update();
 </script>
 </body>
