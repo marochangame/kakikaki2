@@ -3,74 +3,316 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffd98a">
 <title>マロちゃんカキカキ2</title>
 <style>
-html,body{margin:0;height:100%;overflow:hidden;background:#ffd98a;font-family:sans-serif}
-.app{height:100dvh;display:grid;grid-template-rows:auto 1fr auto;gap:8px;padding:8px}
-.top{display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:900;font-size:24px;color:#67a94a}
-.stage{position:relative;border-radius:20px;overflow:hidden;background:#fff5d6}
-.maro{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:90%}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button{padding:14px;border-radius:20px;border:none;font-weight:900;font-size:18px}
-.kaki{background:#ffb37a}
-.gift{background:#ffb3c7}
-.speech{position:absolute;top:10px;left:10px;background:white;padding:8px 12px;border-radius:15px;font-weight:900;opacity:0;transition:.2s}
-.speech.show{opacity:1}
-.bar{position:absolute;bottom:10px;left:10px;right:10px;background:#eee;border-radius:20px;height:20px;overflow:hidden}
-.fill{height:100%;background:linear-gradient(90deg,#ff79a2,#ffd55f,#83da5f);width:50%}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#ffd98a;color:#4d3218}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  background:linear-gradient(160deg,#fff2c8,#ffd98a 55%,#f6b45d);
+}
+.app{
+  height:100dvh;
+  max-width:540px;
+  margin:auto;
+  padding:8px 10px calc(10px + env(safe-area-inset-bottom));
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:8px;
+}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.logo{
+  white-space:nowrap;
+  font-size:clamp(20px,6vw,30px);
+  font-weight:1000;
+  color:#66a946;
+  -webkit-text-stroke:3px #fff7d8;
+  paint-order:stroke fill;
+  filter:drop-shadow(0 2px 0 rgba(122,75,34,.14));
+}
+.point{
+  background:rgba(255,255,255,.75);
+  border:2px solid rgba(130,78,28,.2);
+  border-radius:16px;
+  padding:6px 10px;
+  font-weight:1000;
+  box-shadow:0 4px 0 rgba(122,75,34,.11);
+}
+.stage{
+  position:relative;
+  overflow:hidden;
+  border-radius:24px;
+  border:3px solid rgba(122,75,34,.18);
+  background:rgba(255,250,226,.72);
+  box-shadow:0 10px 24px rgba(122,75,34,.18), inset 0 0 0 5px rgba(255,255,255,.16);
+}
+.bg{
+  position:absolute;inset:0;
+  background:url("maro_keep.png?v=working1") center/cover no-repeat;
+  filter:blur(13px) saturate(1.06) brightness(1.08);
+  transform:scale(1.08);
+  opacity:.22;
+}
+.maroWrap{
+  position:absolute;
+  left:50%;
+  top:46%;
+  width:min(93%,470px);
+  aspect-ratio:1/1;
+  transform:translate(-50%,-50%);
+  display:grid;
+  place-items:center;
+  z-index:3;
+}
+.maro{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  user-select:none;
+  pointer-events:none;
+  transform-origin:50% 72%;
+  filter:drop-shadow(0 15px 18px rgba(80,44,16,.23));
+  animation:breath 2.5s ease-in-out infinite;
+}
+.maro.kaki{animation:kaki .5s ease-in-out 2}
+.maro.gift{animation:gift .8s ease-in-out 1}
+@keyframes breath{0%,100%{transform:scale(1) rotate(-.5deg)}50%{transform:scale(1.018) rotate(.5deg)}}
+@keyframes kaki{0%,100%{transform:scale(1) rotate(-1.5deg)}50%{transform:scale(1.07) rotate(2deg)}}
+@keyframes gift{0%,100%{transform:scale(1) translateY(0)}25%{transform:scale(1.04) translateY(5px)}55%{transform:scale(.99) translateY(-3px)}80%{transform:scale(1.05) translateY(2px)}}
+.perch{
+  position:absolute;
+  left:5%;right:5%;bottom:18%;
+  height:24px;border-radius:999px;
+  background:linear-gradient(#dfab55,#955d1b);
+  border:3px solid rgba(96,54,12,.38);
+  z-index:2;
+}
+.speech{
+  position:absolute;
+  left:14px;
+  top:14px;
+  max-width:48%;
+  z-index:5;
+  padding:7px 10px;
+  color:#f06f99;
+  background:rgba(255,255,255,.93);
+  border:3px solid rgba(255,165,190,.50);
+  border-radius:16px 17px 17px 8px;
+  box-shadow:0 6px 12px rgba(122,75,34,.12);
+  font-weight:1000;
+  font-size:14px;
+  line-height:1.15;
+  text-align:center;
+  opacity:0;
+  transform:rotate(-4deg) scale(.8);
+  pointer-events:none;
+}
+.speech.show{animation:bubble 1.05s ease-out forwards}
+@keyframes bubble{
+  0%{opacity:0;transform:rotate(-4deg) translateY(8px) scale(.65)}
+  18%{opacity:1;transform:rotate(-4deg) translateY(-4px) scale(1.06)}
+  78%{opacity:1;transform:rotate(-4deg) translateY(-3px) scale(1)}
+  100%{opacity:0;transform:rotate(-4deg) translateY(-9px) scale(.96)}
+}
+.meterCard{
+  position:absolute;
+  left:12px;right:12px;bottom:10px;
+  z-index:4;
+  background:rgba(255,255,255,.78);
+  border:3px solid rgba(122,75,34,.17);
+  border-radius:19px;
+  padding:7px 8px 8px;
+}
+.meterTop{display:flex;justify-content:space-between;font-weight:1000;font-size:15px;margin:0 4px 5px}
+.meter{height:17px;border-radius:999px;overflow:hidden;background:#ffe9bb;border:2px solid rgba(122,75,34,.16)}
+.fill{height:100%;width:50%;border-radius:999px;background:linear-gradient(90deg,#ff79a2,#ffd55f,#83da5f);transition:width .25s ease}
+.fx{
+  position:absolute;
+  z-index:6;
+  pointer-events:none;
+  font-size:24px;
+  animation:floatUp 1.05s ease-out forwards;
+}
+@keyframes floatUp{
+  0%{opacity:0;transform:translateY(12px) scale(.45) rotate(0)}
+  18%{opacity:1}
+  100%{opacity:0;transform:translateY(-82px) scale(1.45) rotate(20deg)}
+}
+.foodFly{
+  position:absolute;z-index:7;left:50%;top:53%;font-size:30px;pointer-events:none;
+  animation:foodFly .8s ease-in forwards;
+}
+@keyframes foodFly{
+  0%{opacity:1;transform:translate(-50%,80px) scale(1.2) rotate(-12deg)}
+  80%{opacity:1;transform:translate(-50%,-45px) scale(.65) rotate(12deg)}
+  100%{opacity:0;transform:translate(-50%,-60px) scale(.3)}
+}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button{
+  touch-action:manipulation;
+  border:0;
+  border-radius:22px;
+  padding:15px 8px;
+  font-size:18px;
+  font-weight:1000;
+  color:#5b3819;
+  border:2px solid rgba(122,75,34,.19);
+  box-shadow:0 6px 0 rgba(122,75,34,.18);
+}
+button:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(122,75,34,.18)}
+#kakiBtn{background:linear-gradient(#fff0b7,#ff9d72)}
+#giftBtn{background:linear-gradient(#fff7df,#ffb0c8)}
+.toast{
+  position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+  z-index:30;opacity:0;background:#fffdf4;border:3px solid rgba(122,75,34,.20);
+  border-radius:999px;padding:8px 14px;font-weight:1000;transition:.25s;
+}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(-8px)}
 </style>
 </head>
 <body>
 <div class="app">
-<div class="top">
-<div class="logo">マロちゃんカキカキ2</div>
-<div>⭐<span id="pt">0</span></div>
-</div>
+  <div class="top">
+    <div class="logo">マロちゃんカキカキ2</div>
+    <div class="point">⭐ <span id="pt">0</span>pt</div>
+  </div>
 
-<div class="stage" id="stage">
-<img src="maro.png" class="maro">
-<div class="speech" id="speech"></div>
-<div class="bar"><div class="fill" id="fill"></div></div>
-</div>
+  <div class="stage" id="stage">
+    <div class="bg"></div>
+    <div class="speech" id="speech">ぴっ！</div>
+    <div class="maroWrap">
+      <img class="maro" id="maro" src="maro_keep.png?v=working1" alt="マロちゃん">
+    </div>
+    <div class="perch"></div>
+    <div class="meterCard">
+      <div class="meterTop"><span>なかよし度</span><span id="pct">50%</span></div>
+      <div class="meter"><div class="fill" id="fill"></div></div>
+    </div>
+  </div>
 
-<div class="controls">
-<button class="kaki" onclick="kaki()">✨カキカキ</button>
-<button class="gift" onclick="gift()">🎁ごほうび</button>
+  <div class="actions">
+    <button id="kakiBtn" type="button">✨ カキカキ</button>
+    <button id="giftBtn" type="button">🎁 ごほうび</button>
+  </div>
 </div>
-</div>
+<div class="toast" id="toast">OK</div>
 
 <script>
-let pct=50,pt=0;
-const voices=["ぴっ！","ぴよぴよ♪","きゅるる〜","ぷきゅっ","ちゅん♪","マロちゃ〜ん","ふわぁ…","だいすき♪"];
-function rand(){return voices[Math.floor(Math.random()*voices.length)]}
-
-function show(text){
-const s=document.getElementById("speech");
-s.innerText=text;
-s.classList.add("show");
-setTimeout(()=>s.classList.remove("show"),800);
-}
+let pct=50, pt=0, lastVoice=-1;
+const voices=[
+  {text:"ぴっ！", seq:[820,1040]},
+  {text:"ぴよぴよ♪", seq:[760,920,860]},
+  {text:"きゅるる〜♪", seq:[560,680,820]},
+  {text:"ぷきゅっ♡", seq:[900,620,980]},
+  {text:"ちゅん♪", seq:[720,940]},
+  {text:"マロちゃ〜ん", seq:[520,520,760,680]},
+  {text:"ふわぁ…", seq:[360,320]},
+  {text:"だいすき♪", seq:[660,780,980,880]},
+  {text:"ころころ〜♪", seq:[520,640,760,640]},
+  {text:"んぴっ♡", seq:[920,760]}
+];
+const gifts=[
+  {emoji:"🌻", plus:12, point:140},
+  {emoji:"🌾", plus:16, point:180},
+  {emoji:"🍃", plus:8, point:110}
+];
+const $=id=>document.getElementById(id);
+const maro=$("maro"), speech=$("speech"), fill=$("fill"), pctEl=$("pct"), ptEl=$("pt"), stage=$("stage"), toast=$("toast");
 
 function update(){
-document.getElementById("fill").style.width=pct+"%";
-document.getElementById("pt").innerText=pt;
+  fill.style.width=pct+"%";
+  pctEl.textContent=pct+"%";
+  ptEl.textContent=pt;
 }
-
+function randomVoice(){
+  let i=Math.floor(Math.random()*voices.length);
+  if(i===lastVoice) i=(i+1)%voices.length;
+  lastVoice=i;
+  return voices[i];
+}
+function pop(text){
+  speech.textContent=text;
+  speech.classList.remove("show");
+  void speech.offsetWidth;
+  speech.classList.add("show");
+}
+function setAnim(name){
+  maro.classList.remove("kaki","gift");
+  void maro.offsetWidth;
+  maro.classList.add(name);
+  setTimeout(()=>maro.classList.remove(name),900);
+}
+function fx(kind){
+  for(let i=0;i<10;i++){
+    const e=document.createElement("div");
+    e.className="fx";
+    e.textContent=kind==="gift" ? (Math.random()>.45?"💗":"✨") : (Math.random()>.5?"💗":"✨");
+    e.style.left=(18+Math.random()*66)+"%";
+    e.style.top=(24+Math.random()*48)+"%";
+    e.style.animationDelay=(Math.random()*0.16)+"s";
+    stage.appendChild(e);
+    setTimeout(()=>e.remove(),1300);
+  }
+}
+function foodFly(emoji){
+  const e=document.createElement("div");
+  e.className="foodFly";
+  e.textContent=emoji;
+  stage.appendChild(e);
+  setTimeout(()=>e.remove(),900);
+}
+function tone(freq,dur=.1){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+    window.ac=window.ac||new AC();
+    if(ac.state==="suspended") ac.resume();
+    const o=ac.createOscillator(), g=ac.createGain();
+    o.frequency.value=freq; o.type="sine"; g.gain.value=.052;
+    o.connect(g); g.connect(ac.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(.0001, ac.currentTime+dur);
+    o.stop(ac.currentTime+dur);
+  }catch(e){}
+}
+function playVoice(v){
+  v.seq.forEach((f,i)=>setTimeout(()=>tone(f,.1),i*88));
+}
+function showToast(t){
+  toast.textContent=t;
+  toast.classList.add("on");
+  setTimeout(()=>toast.classList.remove("on"),900);
+}
 function kaki(){
-pct=Math.min(100,pct+7);
-pt+=50;
-show(rand());
-update();
+  const v=randomVoice();
+  pct=Math.min(100,pct+7);
+  pt+=50;
+  update();
+  pop(v.text);
+  playVoice(v);
+  setAnim("kaki");
+  fx("kaki");
 }
-
 function gift(){
-pct=Math.min(100,pct+12);
-pt+=120;
-show(rand());
-update();
+  const v=randomVoice();
+  const g=gifts[Math.floor(Math.random()*gifts.length)];
+  pct=Math.min(100,pct+g.plus);
+  pt+=g.point;
+  update();
+  pop(v.text+" "+g.emoji);
+  playVoice(v);
+  setAnim("gift");
+  foodFly(g.emoji);
+  fx("gift");
+  showToast("ごほうび +" + g.plus);
 }
-update();
+document.addEventListener("DOMContentLoaded",()=>{
+  $("kakiBtn").addEventListener("click",e=>{e.preventDefault();e.stopPropagation();kaki();});
+  $("giftBtn").addEventListener("click",e=>{e.preventDefault();e.stopPropagation();gift();});
+  stage.addEventListener("click",e=>{kaki();});
+  update();
+});
 </script>
 </body>
 </html>
